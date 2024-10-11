@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Arbeitstage Countdown NRW</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #f0f0f0;
+            text-align: center;
+        }
+        #countdown {
+            font-size: 36px;
+            color: #333;
+        }
+    </style>
+</head>
+<body>
+    <div id="countdown"></div>
+
+    <script>
+        // Feiertage in NRW (2024 und 2025)
+        const feiertageNRW = [
+            // Feiertage 2024
+            new Date('2024-01-01'), // Neujahr
+            new Date('2024-03-29'), // Karfreitag
+            new Date('2024-04-01'), // Ostermontag
+            new Date('2024-05-01'), // Tag der Arbeit
+            new Date('2024-05-09'), // Christi Himmelfahrt
+            new Date('2024-05-20'), // Pfingstmontag
+            new Date('2024-10-03'), // Tag der Deutschen Einheit
+            new Date('2024-11-01'), // Allerheiligen
+            new Date('2024-12-25'), // 1. Weihnachtstag
+            new Date('2024-12-26'), // 2. Weihnachtstag,
+
+            // Feiertage 2025
+            new Date('2025-01-01'), // Neujahr
+            new Date('2025-04-18'), // Karfreitag
+            new Date('2025-04-21'), // Ostermontag
+            new Date('2025-05-01'), // Tag der Arbeit
+            new Date('2025-05-29'), // Christi Himmelfahrt
+            new Date('2025-06-09'), // Pfingstmontag
+            new Date('2025-10-03'), // Tag der Deutschen Einheit
+            new Date('2025-11-01'), // Allerheiligen
+            new Date('2025-12-25'), // 1. Weihnachtstag
+            new Date('2025-12-26')  // 2. Weihnachtstag
+        ];
+
+        // Ziel-Datum festlegen (31. Dezember 2025)
+        const endDate = new Date('2025-03-31');
+
+        // Funktion zur Berechnung der Arbeitstage
+        function getArbeitstage(startDate, endDate) {
+            let arbeitstage = 0;
+            let currentDate = new Date(startDate);
+
+            while (currentDate <= endDate) {
+                const dayOfWeek = currentDate.getDay();
+                const isWeekend = (dayOfWeek === 6) || (dayOfWeek === 0); // Samstag (6) oder Sonntag (0)
+                const isHoliday = feiertageNRW.some(holiday => holiday.getTime() === currentDate.getTime());
+
+                if (!isWeekend && !isHoliday) {
+                    arbeitstage++;
+                }
+
+                // Nächster Tag
+                currentDate.setDate(currentDate.getDate() + 1);
+            }
+
+            return arbeitstage;
+        }
+
+        // Countdown-Anzeige aktualisieren
+        function updateCountdown() {
+            const today = new Date();
+            const remainingWorkDays = getArbeitstage(today, endDate);
+
+            document.getElementById('countdown').innerHTML = `Verbleibende Arbeitstage in NRW: ${remainingWorkDays}`;
+
+            // Optional: Countdown täglich um Mitternacht aktualisieren
+            setTimeout(updateCountdown, 24 * 60 * 60 * 1000);
+        }
+
+        // Countdown initial starten
+        updateCountdown();
+    </script>
+</body>
+</html>
