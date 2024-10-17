@@ -80,7 +80,7 @@
             const today = new Date();
             const remainingWorkDays = getArbeitstage(today, endDate);
 
-            document.getElementById('countdown').innerHTML = `Verbleibende Arbeitstage in NRW: ${remainingWorkDays}`;
+            document.getElementById('countdown').innerHTML = `Deine verbleibenden Arbeitstage: ${remainingWorkDays}`;
 
             // Optional: Countdown täglich um Mitternacht aktualisieren
             setTimeout(updateCountdown, 24 * 60 * 60 * 1000);
